@@ -22,7 +22,22 @@ navigator.mediaDevices.getUserMedia({
 }).then(stream => {
   myVideoStream = stream;
   addVideoStream(myVideo, stream);
+
+  //amswer the call form x & add the stream of x
+  peer.on('call', call => {
+    call.answer(stream)
+    const video = document.createElement('video')
+    call.on('stream', userVideoStream => {
+      addVideoStream(video, userVideoStream)
+    })
+  })
+
+  socket.on('user-connected', (userId) => {//now listen that userd after emit
+    connectToNewUser(userId, stream);
+  })
 })
+
+//here user video we call it stream
 
 peer.on('open', id => {
   // console.log(id);
@@ -31,15 +46,17 @@ peer.on('open', id => {
 
 // socket.emit('join-room', ROOM_ID);
 
-socket.on('user-connected', (userId) => {//now listen that userd after emit
-  connectToNewUser(userId);
-})
 
-const connectToNewUser = (userId) => {
-  console.log("new user", userId);
+const connectToNewUser = (userId, stream) => {
+  // console.log("new user", userId);
+  const call = peer.call(userId, stream) //when someone connected I call her & send my stream
+  const video = document.createElement('video')
+  call.on('stream', userVideoStream => { // when I got some one stream then I add it 
+    addVideoStream(video, userVideoStream)
+  })
 }
 
-//append your own video
+//append  video
 const addVideoStream = (video, stream) => {
   video.srcObject = stream;
   video.addEventListener('loadedmetadata', () => {
