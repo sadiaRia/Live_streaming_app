@@ -24,7 +24,7 @@ navigator.mediaDevices.getUserMedia({
   addVideoStream(myVideo, stream);
 
   //amswer the call form x & add the stream of x
-  peer.on('call', call => {
+  peer.on('call', call => {//when another user call us we answer it 
     call.answer(stream)
     const video = document.createElement('video')
     call.on('stream', userVideoStream => {
@@ -41,7 +41,7 @@ navigator.mediaDevices.getUserMedia({
 
 peer.on('open', id => {
   // console.log(id);
-  socket.emit('join-room', ROOM_ID, id);//now we know which specic person join the room by that id using peer js
+  socket.emit('join-room', ROOM_ID, id);//now we know which specic person join the room by that id using peer js & that it automatically generated
 })
 
 // socket.emit('join-room', ROOM_ID);
@@ -51,8 +51,8 @@ const connectToNewUser = (userId, stream) => {
   // console.log("new user", userId);
   const call = peer.call(userId, stream) //when someone connected I call her & send my stream
   const video = document.createElement('video')
-  call.on('stream', userVideoStream => { // when I got some one stream then I add it 
-    addVideoStream(video, userVideoStream)
+  call.on('stream', userVideoStream => {
+    addVideoStream(video, userVideoStream)//we send it our own stream throgh here
   })
 }
 
