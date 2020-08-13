@@ -28,6 +28,10 @@ io.on('connection', socket => {
     socket.join(roomId);
     socket.to(roomId).broadcast.emit('user-connected', userId); //emit for every one that certain user just connected
     // console.log("joined room");
+    socket.on('message', message => {
+      io.to(roomId).emit('createMessage', message)
+    })
+
   })
 })
 

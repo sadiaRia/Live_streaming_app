@@ -35,7 +35,34 @@ navigator.mediaDevices.getUserMedia({
   socket.on('user-connected', (userId) => {//now listen that userd after emit
     connectToNewUser(userId, stream);
   })
+
+  //chat
+  let text = $("input");
+
+  // when press enter send message
+  $('html').keydown((e) => {
+    if (e.which == 13 && text.val().length !== 0) {
+      console.log(text.val());
+      socket.emit('message', text.val()); //emit=>send on=>receive
+      text.val('')
+    }
+  });
+
+  //by emiting we send the msg & now we have to receve it from server then server will send to frontend and now we will pop it up on chat.
+
+  socket.on('createMessage', message => {
+    // console.log("I am from server",message);
+    $("ul").append(`<li class="message"><b>user</b><br/>${message}</li>`);
+    scrollToBottom()
+  })
+
 })
+
+//as we type msg always goes to the buttom because of this function 
+const scrollToBottom = () => {
+  let d = $('.main__chat_window');
+  d.scrollTop(d.prop("scrollHeight"));
+}
 
 //here user video we call it stream
 
