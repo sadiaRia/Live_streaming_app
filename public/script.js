@@ -18,7 +18,7 @@ let myVideoStream;
 //access permission for own video
 navigator.mediaDevices.getUserMedia({
   video: true,
-  audio: true
+  audio: false
 }).then(stream => {
   myVideoStream = stream;
   addVideoStream(myVideo, stream);

@@ -3,9 +3,14 @@
   justify-content: center;
 }
 
+body{
+  margin: 0;
+  padding: 0
+}
+
 video{
   height: 300px;
-  width:400px;
+  width: 400px;
   object-fit: cover;
 }
 
@@ -15,7 +20,7 @@ video{
 }
 
 .main__left{
- flex:0.8;
+ flex: 0.8;
  display: flex;
  flex-direction: column;
 }
@@ -25,7 +30,7 @@ video{
 }
 
 .main__videos{
-  flex-grow:1;
+  flex-grow: 1;
   background-color: black;
   display: flex;
   justify-content: center;
