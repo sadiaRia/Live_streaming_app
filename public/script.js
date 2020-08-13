@@ -64,3 +64,4 @@ const addVideoStream = (video, stream) => {
   })
   videoGrid.append(video);
 }
+
